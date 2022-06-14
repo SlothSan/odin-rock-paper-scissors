@@ -17,6 +17,9 @@ if scissors versus paper - scissors win
 if scissors versus rock - rock wins
 */
 const gameArray = [`Rock`, `Paper`, `Scissors`];
+let message = ``;
+let playerScore = 0;
+let computerScore = 0;
 
 //Function to get computer guess randomly from an array.
 function computerPlay () {
@@ -35,7 +38,6 @@ function playRound (computerSelection, playerSelection) {
     
     let computer = computerSelection; 
     let player = caseNormalize(playerSelection);
-    let message = ``;
 
     if (computer === player) {
         
@@ -66,6 +68,12 @@ function playRound (computerSelection, playerSelection) {
         message = `You Win! ${computer} loses to ${player}!`;
     }
 
+    if (message.startsWith(`Win`, 4)) {
+        playerScore = ++playerScore
+    } else if (message.startsWith(`Lose`, 4)) {
+        computerScore = ++computerScore;
+    } 
+
     return message;
 }
 
@@ -73,9 +81,26 @@ function playRound (computerSelection, playerSelection) {
 let playerSelection = `Rock`;
 let computerSelection = computerPlay();
 
-console.log(playRound(computerSelection,playerSelection));
+function game () {
 
+    for (let i = 0; i < 5; i++) {
+        playerSelection = prompt("Enter your choice!(Rock, Paper or Scissors)")
+        playerSelection = caseNormalize(playerSelection);
+        let computerSelection = computerPlay();
+        console.log(playRound(computerSelection,playerSelection));
+        console.log(playerScore,computerScore)
+    }
 
+    if (playerScore > computerScore) {
+        console.log(`Player Wins!`)
+    } else if (playerScore < computerScore) {
+        console.log(`Computer Wins!`)
+    } else {
+        console.log(`It's a Draw!`)
+    }
+}
+
+game();
 
 
 
