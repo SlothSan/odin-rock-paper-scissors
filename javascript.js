@@ -18,6 +18,7 @@ if scissors versus rock - rock wins
 */
 const gameArray = [`Rock`, `Paper`, `Scissors`];
 
+//Function to get computer guess randomly from an array.
 function computerPlay () {
     let choice = gameArray[(Math.floor(Math.random() * 3))];
     return choice;
@@ -28,31 +29,49 @@ function caseNormalize (string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
-let playerSelection = `Rock`;
-let computerSelection = computerPlay(); //computerPlay() - removed for testing.  `Rock`
 
+//Function to play one round and return a message to the console.
 function round (computerSelection, playerSelection) {
     
+    let computer = computerSelection; 
     let player = caseNormalize(playerSelection);
-    let computer = computerSelection; // change after testing to let computer = computerPlay();
-
+    let message = ``;
 
     if (computer === player) {
-        console.log(`Draw! Computer picked ${computer} & Player picked ${player}!`);
+        
+        message = `Draw! Computer picked ${computer} & Player picked ${player}!`;
+    
     } else if (computer === `Rock` && player === `Scissors` ) {
-        console.log(`You Lose! ${computer} beats ${player}!`);
+        
+        message = `You Lose! ${computer} beats ${player}!`;
+    
     } else if (computer === `Rock` && player === `Paper`) {
-        console.log(`You Win! ${computer} loses to ${player}!`);
+        
+        message = `You Win! ${computer} loses to ${player}!`;
+    
     } else if (computer === 'Scissors' && player === `Paper`) {
-        console.log(`You Lose! ${computer} beats ${player}!`)
+        
+        message = `You Lose! ${computer} beats ${player}!`;
+    
     } else if (computer === `Scissors` && player === `Rock` ) {
-        console.log(`You Win! ${computer} loses to ${player}!`)
+        
+        message = `You Win! ${computer} loses to ${player}!`;
+    
     } else if (computer === `Paper` && player === `Rock`) {
-        console.log(`You Lose! ${computer} beats ${player}!`);
+        
+        message = `You Lose! ${computer} beats ${player}!`;
+    
     } else if (computer === `Paper` && player === `Scissors`) {
-        console.log(`You Win! ${computer} loses to ${player}!`)
+        
+        message = `You Win! ${computer} loses to ${player}!`;
     }
+
+    console.log(message);
 }
+
+
+let playerSelection = `Rock`;
+let computerSelection = computerPlay();
 
 console.log(round(computerSelection,playerSelection));
 
