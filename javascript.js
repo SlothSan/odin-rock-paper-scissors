@@ -85,19 +85,29 @@ function game () {
 
     for (;round;) {
         
-            playerSelection = prompt("Enter your choice!(Rock, Paper or Scissors)")
+            playerSelection = prompt("Enter your choice!(Rock, Paper or Scissors)");
+
+            //If to check that the input isn't null and if it is run the prompt again. 
+        if (playerSelection === null) {
+            playerSelection = prompt("Enter your choice!(Rock, Paper or Scissors)");
+            if (playerSelection === null) {
+                alert("Please close the page if you don't want to play!");
+                playerSelection = "";
+                }
+            }
+
             playerSelection = caseNormalize(playerSelection);
 
         //While to check the input matches the list of playable strings.   
         while (!gameArray.includes(playerSelection)) {
             alert("Please enter your choice again, you didn't pick Rock, Paper or Scissors!");
-            playerSelection = prompt("Enter your choice!(Rock, Paper or Scissors)")
+            playerSelection = prompt("Enter your choice!(Rock, Paper or Scissors)");
             playerSelection = caseNormalize(playerSelection);
         }
 
         let computerSelection = computerPlay();
         console.log(playRound(computerSelection,playerSelection));
-        console.log(playerScore,computerScore)
+        console.log(playerScore,computerScore);
 
 
         //sets round to true that ends the game and exits the for loop. 
