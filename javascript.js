@@ -37,7 +37,7 @@ function caseNormalize (string) {
 function playRound (computerSelection, playerSelection) {
     
     let computer = computerSelection; 
-    let player = caseNormalize(playerSelection);
+    let player = playerSelection;
 
     if (computer === player) {
         
@@ -106,13 +106,9 @@ function game () {
         } 
     }
 
-    if (playerScore > computerScore) {
-        console.log(`Player Wins! Good Job!`);
-    } else if (playerScore < computerScore) {
-        console.log(`Computer Wins! Skynet is taking over!`);
-    }
 
-
+    //Ternary Operator to log the winner. 
+    playerScore > computerScore ? console.log(`Player Wins! Good Job!`) : console.log(`Computer Wins! Skynet is taking over!`);
 
 }
 
