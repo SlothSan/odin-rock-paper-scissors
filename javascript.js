@@ -31,7 +31,7 @@ function caseNormalize (string) {
 
 
 //Function to play one round and return a message to the console.
-function round (computerSelection, playerSelection) {
+function playRound (computerSelection, playerSelection) {
     
     let computer = computerSelection; 
     let player = caseNormalize(playerSelection);
@@ -66,14 +66,14 @@ function round (computerSelection, playerSelection) {
         message = `You Win! ${computer} loses to ${player}!`;
     }
 
-    console.log(message);
+    return message;
 }
 
 
 let playerSelection = `Rock`;
 let computerSelection = computerPlay();
 
-console.log(round(computerSelection,playerSelection));
+console.log(playRound(computerSelection,playerSelection));
 
 
 
