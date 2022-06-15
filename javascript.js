@@ -41,13 +41,13 @@ buttons.forEach((button) => {
         if (button.id === `paper`) {
             playerSelection = `Paper`;
             computerSelection = computerPlay();
-            playRound(computerSelection, playerSelection);
+            playRound(playerSelection, computerSelection);
         }
 
         if (button.id === `scissors`) {
             playerSelection = `Scissors`;
             computerSelection = computerPlay();
-            playRound(computerSelection, playerSelection);
+            playRound(playerSelection, computerSelection);
         }
     });
 });
@@ -61,7 +61,7 @@ function computerPlay () {
 
 
 //Function to play one round and return a message to the console.
-function playRound (computerSelection, playerSelection) {
+function playRound (playerSelection, computerSelection) {
     
     let computer = computerSelection; 
     let player = playerSelection;
@@ -104,10 +104,14 @@ function playRound (computerSelection, playerSelection) {
     if (playerScore === 5 || computerScore === 5) {
         if (playerScore === 5) {
             score.innerHTML = `PLAYER WINS, CONGRATS HUMAN!`;
+            playerScore = 0;
+            computerScore = 0;
         }
 
         if (computerScore === 5) {
             score.innerHTML = `COMPUTER WINS, SKYNET IS TAKING OVER!`;
+            playerScore = 0;
+            computerScore = 0;
         } 
     } else {
         score.innerHTML = `Player Score: ${playerScore}   Computer Score: ${computerScore}`;
@@ -116,29 +120,10 @@ function playRound (computerSelection, playerSelection) {
 
 
 function game () {
-
-    for (;round;) { 
-        playRound(computerSelection,playerSelection);
-        score.innerHTML =`Player Score: ${playerScore}   Computer Score: ${computerScore}`;
-
-
-        //sets round to true that ends the game and exits the for loop. 
-        
-        if (playerScore === 5 || computerScore === 5) {
-            round = false;
-        } 
-    }
-
-
-    //Ternary Operator to log the winner. 
-    playerScore > computerScore ? console.log(`Player Wins! Good Job!`) : console.log(`Computer Wins! Skynet is taking over!`);
-
+    do {
+        playRound (playerSelection,computerSelection);
+    } while (playerScore != 5 || computerScore != 5);
 }
-
-// game();
-
-
-
 
 
 
