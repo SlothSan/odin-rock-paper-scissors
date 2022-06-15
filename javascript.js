@@ -1,132 +1,88 @@
-/* Rock Paper Scissors Pseudocode 
-need to randomly return one of the above as the "Computer pick" for the game 
-Create array with Rock, Paper Scissors.
-Create a random number between 0-2.
-Make choice that element in the array. 
-Return it. 
 
+//DOM
+const optionsButtons = document.querySelectorAll(`div.btn-container button`);
+const resetButton = document.getElementById(`reset`);
+const roundResults = document.getElementById(`result-container`);
+const playerScore = document.getElementById(`player-score-container`);
+const computerScore = document.getElementById(`computer-score-container`);
 
-Function to play 1 round of RPS.
-takes playerSelection and computerSelection as inputs.
-if the same return draw.
-if rock versus paper - paper wins
-if rock versus scissors - rock wins.
-if paper verus scissors - scissors win
-if paper versus rock - paper wins
-if scissors versus paper - scissors win
-if scissors versus rock - rock wins
-*/
-const gameArray = [`Rock`, `Paper`, `Scissors`];
-let round = true;
-let message = ``;
-let playerSelection;
-let computerSelection;
-let playerScore = 0;
-let computerScore = 0;
+//Global Variables
+const COMPUTERCHOICES = [
+    {choice: `Rock`, value: 0},
+    {choice: `Paper`, value: 1},
+    {choice: `Scissors`, value: 2}
+];
 
-//DOM JS for setting up DOM Manipulation. 
+const WINNERRESULTS = {
+    computer: [`You Lost the game to a computer, skynet is real huh?`, `red`],
+    player: [`You Won, Grats!!`, `green`],
+    tie: [`The Game is a Tie!, good match!`, `blue`]
+}
 
-const buttons = document.querySelectorAll('button');
-const results = document.querySelector(`#result-container`);
-const score = document.querySelector(`#score-container`);
+//Refresh page for new game.
+resetButton.addEventListener(`click`, () => location.reload());
 
-buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-        if (button.id === `rock`) {
-            playerSelection = `Rock`;
-            computerSelection = computerPlay();
-            playRound(playerSelection, computerSelection);
-        }
+//Setup Player Choice Button Event Listeners 
 
-        if (button.id === `paper`) {
-            playerSelection = `Paper`;
-            computerSelection = computerPlay();
-            playRound(playerSelection, computerSelection);
-        }
+optionsButtons.forEach(button => {button.addEventListener(`click`, getPlayerChoice) });
 
-        if (button.id === `scissors`) {
-            playerSelection = `Scissors`;
-            computerSelection = computerPlay();
-            playRound(playerSelection, computerSelection);
-        }
-    });
-});
+let playerCurrentScore = 0;
+let computerCurrentScore = 0;
+let playerChoice;
 
-
-//Function to get computer guess randomly from an array.
+//Function for computer choice
 function computerPlay () {
-    let choice = gameArray[(Math.floor(Math.random() * 3))];
-    return choice;
+    let result = COMPUTERCHOICES[(Math.floor(Math.random() * COMPUTERCHOICES.length))];
+    return result;
 }
 
-
-//Function to play one round and return a message to the console.
+//Function to play a round 
 function playRound (playerSelection, computerSelection) {
-    
-    let computer = computerSelection; 
-    let player = playerSelection;
+    let roundWinCombo = `${playerSelection} - ${computerSelection.valie}`;
+    let playerWinCombo = [`1-0`, `0-2`, `2-1`];
 
-    if (computer === player) {
-
-        results.innerHTML = `Draw! Computer picked ${computer} & Player picked ${player}!`;
-
-    } else if (computer === `Rock` && player === `Scissors` ) {
-
-        results.innerHTML = `You Lose! ${computer} beats ${player}!`;
-        ++computerScore;
-    
-    } else if (computer === `Rock` && player === `Paper`) {
-
-        results.innerHTML = `You Win! ${player} beats ${computer} !`;
-        ++playerScore;
-    
-    } else if (computer === 'Scissors' && player === `Paper`) {
-
-        results.innerHTML = `You Lose! ${computer} beats ${player}!`;
-        ++computerScore;
-    
-    } else if (computer === `Scissors` && player === `Rock` ) {
-
-        results.innerHTML = `You Win! ${player} beats ${computer} !`;
-        ++playerScore;
-    
-    } else if (computer === `Paper` && player === `Rock`) {
-
-        results.innerHTML = `You Lose! ${computer} beats ${player}!`;
-        ++computerScore;
-    
-    } else if (computer === `Paper` && player === `Scissors`) {
-
-        results.innerHTML = `You Win! ${player} beats ${computer} !`;
-        ++playerScore;
-    }
-    
-    if (playerScore === 5 || computerScore === 5) {
-        if (playerScore === 5) {
-            score.innerHTML = `PLAYER WINS, CONGRATS HUMAN!`;
-            playerScore = 0;
-            computerScore = 0;
-        }
-
-        if (computerScore === 5) {
-            score.innerHTML = `COMPUTER WINS, SKYNET IS TAKING OVER!`;
-            playerScore = 0;
-            computerScore = 0;
-        } 
+    if(Number(playerSelection) === computerSelection.value) {
+        playerScore.textContent = ++playerCurrentScore;
+        computerScore.textContent = ++computerCurrentScore;
+        roundResults.textContent = `Tie round!`;
+    } else if (playerWinCombo.includes(roundWinCombo)) {
+        playerScore.textContent = ++playerScore;
+        roundResults.textContent = `You Win! ${playerChoice} beats ${computerSelection.choice}!`;
     } else {
-        score.innerHTML = `Player Score: ${playerScore}   Computer Score: ${computerScore}`;
+        computerScore.textContent = ++computerCurrentScore;
+        roundResults.textContent = `You Lose! ${computerSelection.choice} beats ${playerChoice}!`;
+    }
+  checkWinner();
+}
+
+
+//Function to check the winner.
+function checkWinner () {
+    if (computerCurrentScore === 5 || playerCurrentScore === 5) {
+        if (computerCurrentScore === playerCurrentScore) {
+            updateWinner(`tie`);
+        } else {
+            let win = `${(computerCurrentScore > playerCurrentScore) ? `computer` : `player`}`;
+            updateWinner(win);
+        }
     }
 }
 
+//Function to update the winner.
+function updateWinner (winner) {
+    roundResults.textContent = WINNERRESULTS[winner][0];
+    roundResults.style.color = WINNERRESULTS[winner][1];
 
-function game () {
-    do {
-        playRound (playerSelection,computerSelection);
-    } while (playerScore != 5 || computerScore != 5);
+    optionsButtons.forEach(button => {
+        button.removeEventListener(`click`, getPlayerChoice);
+    });
 }
 
-
-
-
+//Function to get playerchoice from button click.
+function getPlayerChoice (e) {
+    let playerSelection = (e.target.id);
+    playerChoice = e.target.textContent;
+    playRound(playerSelection, computerPlay());
+}
 
 
