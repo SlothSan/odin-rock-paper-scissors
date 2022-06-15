@@ -1,0 +1,1 @@
+const optionsButtons = document.querySelectorAll(`div.btn-container button`);
