@@ -19,8 +19,39 @@ if scissors versus rock - rock wins
 const gameArray = [`Rock`, `Paper`, `Scissors`];
 let round = true;
 let message = ``;
+let playerSelection;
+let computerSelection;
 let playerScore = 0;
 let computerScore = 0;
+
+//DOM JS for setting up DOM Manipulation. 
+
+const buttons = document.querySelectorAll('button');
+const results = document.querySelector(`#result-container`);
+const score = document.querySelector(`#score-container`);
+
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        if (button.id === `rock`) {
+            playerSelection = `Rock`;
+            computerSelection = computerPlay();
+            playRound(playerSelection, computerSelection);
+        }
+
+        if (button.id === `paper`) {
+            playerSelection = `Paper`;
+            computerSelection = computerPlay();
+            playRound(computerSelection, playerSelection);
+        }
+
+        if (button.id === `scissors`) {
+            playerSelection = `Scissors`;
+            computerSelection = computerPlay();
+            playRound(computerSelection, playerSelection);
+        }
+    });
+});
+
 
 //Function to get computer guess randomly from an array.
 function computerPlay () {
@@ -28,10 +59,6 @@ function computerPlay () {
     return choice;
 }
 
-//Function to normalize the players input, make char 0 uppercase and return rest of string as lowercase.
-function caseNormalize (string) { 
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
 
 //Function to play one round and return a message to the console.
 function playRound (computerSelection, playerSelection) {
@@ -40,77 +67,63 @@ function playRound (computerSelection, playerSelection) {
     let player = playerSelection;
 
     if (computer === player) {
-        
-        message = `Draw! Computer picked ${computer} & Player picked ${player}!`;
-    
+
+        results.innerHTML = `Draw! Computer picked ${computer} & Player picked ${player}!`;
+
     } else if (computer === `Rock` && player === `Scissors` ) {
-        
-        message = `You Lose! ${computer} beats ${player}!`;
+
+        results.innerHTML = `You Lose! ${computer} beats ${player}!`;
+        ++computerScore;
     
     } else if (computer === `Rock` && player === `Paper`) {
-        
-        message = `You Win! ${computer} loses to ${player}!`;
+
+        results.innerHTML = `You Win! ${player} beats ${computer} !`;
+        ++playerScore;
     
     } else if (computer === 'Scissors' && player === `Paper`) {
-        
-        message = `You Lose! ${computer} beats ${player}!`;
+
+        results.innerHTML = `You Lose! ${computer} beats ${player}!`;
+        ++computerScore;
     
     } else if (computer === `Scissors` && player === `Rock` ) {
-        
-        message = `You Win! ${computer} loses to ${player}!`;
+
+        results.innerHTML = `You Win! ${player} beats ${computer} !`;
+        ++playerScore;
     
     } else if (computer === `Paper` && player === `Rock`) {
-        
-        message = `You Lose! ${computer} beats ${player}!`;
+
+        results.innerHTML = `You Lose! ${computer} beats ${player}!`;
+        ++computerScore;
     
     } else if (computer === `Paper` && player === `Scissors`) {
-        
-        message = `You Win! ${computer} loses to ${player}!`;
+
+        results.innerHTML = `You Win! ${player} beats ${computer} !`;
+        ++playerScore;
     }
+    
+    if (playerScore === 5 || computerScore === 5) {
+        if (playerScore === 5) {
+            score.innerHTML = `PLAYER WINS, CONGRATS HUMAN!`;
+        }
 
-    if (message.startsWith(`Win`, 4)) {
-        playerScore = ++playerScore
-    } else if (message.startsWith(`Lose`, 4)) {
-        computerScore = ++computerScore;
-    } 
-
-    return message;
+        if (computerScore === 5) {
+            score.innerHTML = `COMPUTER WINS, SKYNET IS TAKING OVER!`;
+        } 
+    } else {
+        score.innerHTML = `Player Score: ${playerScore}   Computer Score: ${computerScore}`;
+    }
 }
 
 
-let playerSelection = `Rock`;
-let computerSelection = computerPlay();
-
 function game () {
 
-    for (;round;) {
-        
-            playerSelection = prompt("Enter your choice!(Rock, Paper or Scissors)");
-
-            //If to check that the input isn't null and if it is run the prompt again. 
-        if (playerSelection === null) {
-            playerSelection = prompt("Enter your choice!(Rock, Paper or Scissors)");
-            if (playerSelection === null) {
-                alert("Please close the page if you don't want to play!");
-                playerSelection = "";
-                }
-            }
-
-            playerSelection = caseNormalize(playerSelection);
-
-        //While to check the input matches the list of playable strings.   
-        while (!gameArray.includes(playerSelection)) {
-            alert("Please enter your choice again, you didn't pick Rock, Paper or Scissors!");
-            playerSelection = prompt("Enter your choice!(Rock, Paper or Scissors)");
-            playerSelection = caseNormalize(playerSelection);
-        }
-
-        let computerSelection = computerPlay();
-        console.log(playRound(computerSelection,playerSelection));
-        console.log(playerScore,computerScore);
+    for (;round;) { 
+        playRound(computerSelection,playerSelection);
+        score.innerHTML =`Player Score: ${playerScore}   Computer Score: ${computerScore}`;
 
 
         //sets round to true that ends the game and exits the for loop. 
+        
         if (playerScore === 5 || computerScore === 5) {
             round = false;
         } 
@@ -122,7 +135,7 @@ function game () {
 
 }
 
-game();
+// game();
 
 
 
