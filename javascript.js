@@ -38,18 +38,20 @@ function computerPlay () {
 
 //Function to play a round 
 function playRound (playerSelection, computerSelection) {
-    let roundWinCombo = `${playerSelection} - ${computerSelection.valie}`;
+    let roundWinCombo = `${playerSelection}-${computerSelection.value}`;
     let playerWinCombo = [`1-0`, `0-2`, `2-1`];
 
     if(Number(playerSelection) === computerSelection.value) {
-        playerScore.textContent = ++playerCurrentScore;
-        computerScore.textContent = ++computerCurrentScore;
+        playerScore.textContent = `Player Score: ${++playerCurrentScore}`;
+        computerScore.textContent = `Computer Score: ${++computerCurrentScore}`;
         roundResults.textContent = `Tie round!`;
     } else if (playerWinCombo.includes(roundWinCombo)) {
-        playerScore.textContent = ++playerScore;
+        playerScore.textContent = `Player Score: ${++playerCurrentScore}`;
+        computerScore.textContent = `Computer Score: ${computerCurrentScore}`;
         roundResults.textContent = `You Win! ${playerChoice} beats ${computerSelection.choice}!`;
     } else {
-        computerScore.textContent = ++computerCurrentScore;
+        playerScore.textContent = `Player Score: ${playerCurrentScore}`;
+        computerScore.textContent = `Computer Score: ${++computerCurrentScore}`;
         roundResults.textContent = `You Lose! ${computerSelection.choice} beats ${playerChoice}!`;
     }
   checkWinner();
@@ -82,6 +84,7 @@ function updateWinner (winner) {
 function getPlayerChoice (e) {
     let playerSelection = (e.target.id);
     playerChoice = e.target.textContent;
+    console.log(playerChoice);//testing !
     playRound(playerSelection, computerPlay());
 }
 
