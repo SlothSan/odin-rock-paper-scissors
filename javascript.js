@@ -14,9 +14,9 @@ const COMPUTERCHOICES = [
 ];
 
 const WINNERRESULTS = {
-    computer: [`You Lost the game to a computer, skynet is real huh?`, `red`],
-    player: [`You Won, Grats!!`, `green`],
-    tie: [`The Game is a Tie!, good match!`, `blue`]
+    computer: [`You lost the game to a computer, skynet is real huh?`, `#fb8500`],
+    player: [`You won, Grats!!`, `#fb8500`],
+    tie: [`Game is a Tie!, good match!`, `#fb8500`]
 }
 
 //Refresh page for new game.
